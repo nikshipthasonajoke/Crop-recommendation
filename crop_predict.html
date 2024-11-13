@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crop Recommendation</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f0f0f0; /* Light grey background */
+            font-family: Arial, sans-serif; /* Clear and readable font */
+            padding-top: 20px; /* Adjust for fixed navbar height */
+            margin: 0; /* Remove default margin */
+        }
+
+        .jumbotron {
+            background-color: #5cb85c; /* Green jumbotron */
+            color: #fff; /* White text */
+            margin: 0; /* Remove default margin */
+        }
+
+        .form-group {
+            text-align: center; /* Center align form elements */
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+
+        .button-container {
+            text-align: center; /* Center align buttons */
+        }
+
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #333; /* Dark footer */
+            color: #fff; /* White text */
+            padding: 20px 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .container {
+            padding-bottom: 60px; /* Adjust for footer height */
+        }
+    </style>
+    <script>
+        function validateInput() {
+            var temperature = parseFloat(document.getElementById("Temperature").value);
+            var humidity = parseFloat(document.getElementById("Humidity").value);
+            var ph = parseFloat(document.getElementById("PH").value);
+            var rainFall = parseFloat(document.getElementById("rain_fall").value);
+            var k = parseFloat(document.getElementById("k").value);
+            var n = parseFloat(document.getElementById("n").value);
+            var p = parseFloat(document.getElementById("p").value);
+
+            if (temperature < 0 || temperature > 50) {
+                alert("Temperature must be between 0 and 50.");
+                return false;
+            }
+
+            if (humidity < 0 || humidity > 100) {
+                alert("Humidity must be between 0 and 100.");
+                return false;
+            }
+
+            if (ph < 0 || ph > 14) {
+                alert("PH must be between 0 and 14.");
+                return false;
+            }
+
+            if (rainFall < 10 || rainFall > 300) {
+                alert("Rain Fall must be between 10 and 300.");
+                return false;
+            }
+
+            if (k < 0 || k > 250) {
+                alert("Potassium (K) must be between 0 and 250.");
+                return false;
+            }
+
+            if (n < 0 || n > 150) {
+                alert("Nitrogen (N) must be between 0 and 150.");
+                return false;
+            }
+
+            if (p < 0 || p > 150) {
+                alert("Phosphorous (P) must be between 0 and 150.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="jumbotron text-center">
+        <h1>Crop Recommendation</h1>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form action="{{ url_for('predict') }}" method="post" onsubmit="return validateInput()">
+                    <div class="form-group">
+                        <label for="Temperature"><b>Temperature:</b></label><br>
+                        <input type="text" id="Temperature" name="Temperature" placeholder="Enter in degree celsius" required="required">
+                    </div>
+                    <div class="form-group">
+                        <label for="Humidity"><b>Humidity:</b></label><br>
+                        <input type="text" id="Humidity" name="Humidity" placeholder="Enter in %" required="required">
+                    </div>
+                    <div class="form-group">
+                        <label for="PH"><b>PH in the soil: </b></label><br>
+                        <input type="text" id="PH" name="PH" placeholder="Enter the value" required="required">
+                    </div>
+                    <div class="form-group">
+                        <label for="rain_fall"><b>Rain Fall:</b></label><br>
+                        <input type="text" id="rain_fall" name="rain_fall" placeholder="Enter in mm" required="required">
+                    </div>
+                    <div class="form-group">
+                        <label for="k"><b>Potassium (K) in the Soil:</b></label><br>
+                        <input type="text" id="k" name="k" placeholder="Enter the value" required="required">
+                    </div>
+                    <div class="form-group">
+                        <label for="n"><b>Nitrogen (N) in the Soil:</b></label><br>
+                        <input type="text" id="n" name="n" placeholder="Enter the value" required="required">
+                    </div>
+                    <div class="form-group">
+                        <label for="p"><b>Phosphorous (P) in the Soil:</b></label><br>
+                        <input type="text" id="p" name="p" placeholder="Enter the value" required="required">
+                    </div>
+                    <div class="button-container">
+                        <button type="submit" class="button"><b>Predict</b></button>
+                    </div>
+                </form>
+                <h1><b>{{ prediction_text }}</b></h1>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Developed by Nikshiptha and Kowshika
+    </footer>
+
+</body>
+
+</html>
